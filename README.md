@@ -1,34 +1,39 @@
+# Erebus Attack Simulation
+The [Erebus Attack](https://erebus-attack.comp.nus.edu.sg/) allows large malicious Internet Service Providers (ISPs) to isolate any targeted public Bitcoin nodes from the Bitcoin peer-to-peer network. Our recent [work](https://www.usenix.org/system/files/sec21fall-tran.pdf) also evaluates a potential defense against this attack.
 
-# Bitcoin Erebus - Bitcoin emulator
+Here we faithfully implement the connection making behaviour of the Bitcoin protocol in the application space and mount the attack based on data collected from the actual Bitcoin Network. Further, we also deploy the countermeasures stated in the defense paper which can be toggled on or off. The code is broadly paritioned into three components:
+1. `addrman.py` - a replication of the Bitcoin Peer Management protocol.
+2. `prepare.py` - the environment setting component that loads data into memory
+2. `libemulate.py` - the emulation runner that drives addrman
 
-## Description
+The entire configuration is set in `cfg.py`.
 
-This is a Bitcoin emulator that accurately emulates the address management (in [addrman.cpp](https://github.com/bitcoin/bitcoin/blob/master/src/addrman.cpp)) and outgoing connection establishment of Bitcoin (in [net.cpp](https://github.com/bitcoin/bitcoin/blob/master/src/net.cpp))
-
-The emulator runs in three broad configurations:
-1. `case1`: the RAP defense is disabled and the attacker makes use of full shadow IPs (hidden shadow + non-hidden shadow)
-2. `case2`: the RAP defense is enabled and the attacker makes use of full shadow IPs (hidden shadow + non-hidden shadow)
-3. `case3`: the RAP defense is enabled and the attacker optimizes for hidden shadow IPs over non-hidden shadow IPs.
-
-Further, the victim can enable any countermeasures (described in the paper).
-This is configured at the beginning of the file.
-
-An additional parameter τ(tau) can be configured as an argument to the program.
-
-## Requirements
-
-* Python3
-* py-radix `pip install py-radix`
-* pyasn `pip install py-radix`
+## Data prerequisites
+The following files are required to run the emulator (paths defined in `cfg.EmulationParam`): 
+- `asn_dat_fp`: 
+- `starter_ips_fp`: 
+- `ip_reachability_fp`: 
+- `addr_msgs_fp`: 
+- `shadow_prefixes_fp`: 
+- `nonhidden_shadow_prefixes_fp`: 
+- `victim_as_path`: 
+- `shadow_prefix_stats_fp`: 
 
 ## Running the emulator
-* Place the data in <link> in the `./data` folder
-* Set the parameters described above
-* Run it as
-	```py
-	python3 bitcoin-emulator.py <attacker> <victim> <tau>
-	```
+First, set the necessary configuration details defined in `cfg.py` and ensure the files are present in the correct locations.
 
-## License
+We use the python virtual environment to manage dependencies.
+```sh
+# create venv
+$ python3 -m venv ./venv
+# activate it
+$ source ./venv/bin/activate
+# install dependencies
+(venv) $ pip install -r requirements.txt
+(venv) $ python main.py
+```
 
-This project is licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+The output will be saved in the `./output` directory!
+
+## Support
+Feel free to raise questions in the Issues section.
