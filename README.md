@@ -9,15 +9,16 @@ Here we faithfully implement the connection making behaviour of the Bitcoin prot
 The entire configuration is set in `cfg.py`.
 
 ## Data prerequisites
+Our emulation scenario includes an adversary AS (`attacker_as`) mounting the attack against a victim (`victim_as`). The victim AS denotes the AS network that the target victim node is connected to.
+
 The following files are required to run the emulator (paths defined in `cfg.EmulationParam`): 
-- `asn_dat_fp`: 
-- `starter_ips_fp`: 
-- `ip_reachability_fp`: 
-- `addr_msgs_fp`: 
-- `shadow_prefixes_fp`: 
-- `nonhidden_shadow_prefixes_fp`: 
-- `victim_as_path`: 
-- `shadow_prefix_stats_fp`: 
+- `asn_dat_fp`: IPASN data file that contains a long list of prefixes used to lookup an AS number from a given IP. Refer to the [pyasn](https://pypi.org/project/pyasn/) documentation on steps to obtain an updated file.
+- `starter_ips_fp`: List of IPs seeded to the bitcoin internal database before the start of the simulation.
+- `ip_reachability_fp`: A key value dictionary containing the IP address of a node against a list of timestamp ranges denoting the online time of the node. For example, a line containing `1.2.3.4 t1-t2 t3-t4` suggests that the node was continously online from time t=t1 to t2, and then t3 to t4. This is derived from [Bitnodes](https://bitnodes.io/) data.
+- `addr_msgs_fp`: A tab delimited csv that contains the timestamp at which an ADDR message was received by the node, the src IP address of the ADDR message, and the list of advertised IP addresses.
+- `shadow_prefixes_fp`: List of shadow prefixes.
+- `nonhidden_shadow_prefixes_fp`: List of prefixes that were correctly "estimated" as shadow prefixes by the node. This is used to derive the list of hidden-shadow prefixes (`shadow-prefixes - nonhidden-shadow-prefixes`).
+- `victim_as_path`: List of AS paths from the victim to all prefixes on the internet (`prefix_1 AS1 AS2`).
 
 ## Running the emulator
 First, set the necessary configuration details defined in `cfg.py` and ensure the files are present in the correct locations.

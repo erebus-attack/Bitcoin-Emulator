@@ -84,14 +84,13 @@ class EmulationParam:
     threshold_tau = 5
 
     # filepaths
-    asn_dat_fp = "/data/ipasn.20200225.dat"
-    starter_ips_fp = "/data/random-reachable-ips-dns-1542562102.txt"
-    ip_reachability_fp = "/data/ip-reachability-stripped-incoming-addr-after-30.txt.gz"
-    addr_msgs_fp = "/data/ip-from-addr-stripped-incoming-addr-after-30.txt.gz"
-    shadow_prefixes_fp = "/data/shadow-prefix-traceroute/" + attacker_as + "-" + victim_as + ".txt"
-    nonhidden_shadow_prefixes_fp = "/data/shadow-prefix-estimation/" + attacker_as + "-" + victim_as + ".txt"
-    victim_as_path = "/data/as-path/" + victim_as + ".txt"
-    shadow_prefix_stats_fp = "/data/full-shadow-stats/" + attacker_as + "-" + victim_as + ".txt"
+    asn_dat_fp = "/data/ipasn.dat"
+    starter_ips_fp = "/data/starter-ips.txt"
+    ip_reachability_fp = "/data/ip-reachability.txt.gz"
+    addr_msgs_fp = "/data/addr-msgs.txt.gz"
+    shadow_prefixes_fp = "/data/shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
+    nonhidden_shadow_prefixes_fp = "/data/nonhidden-shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
+    victim_as_path = "/data/as-path." + victim_as + ".txt"
 
 
 ######## Emulation Variables ########

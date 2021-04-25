@@ -176,16 +176,6 @@ def run(addrman):
     check_next_success_rate = 0
     last_time_full_connection = EMU_PARAMS.nStart
 
-    # check if the number of distinct prefix groups containing at least one shadow prefix are >= 10
-    # if not, the attack is theoretically impossible
-    # note: the emulator will still run for 30 days to evaluate the connection-making behaviour
-    # of the node under the effect of threshold_tau
-    impossible_attack_flag = False
-    with open(EMU_PARAMS.shadow_prefix_stats_fp) as fd:
-        num_prefix_group = int(fd.read().split()[1])
-        if num_prefix_group < 10:
-            impossible_attack_flag = True
-
     # run start time (stats)
     em_start = time.time()
     # start emulation: tick from start to end
@@ -195,13 +185,6 @@ def run(addrman):
         # check success rate every day 
         if nNow >= EMU_PARAMS.nStart + check_next_success_rate * 24 * 60 * 60:
             print(check_next_success_rate, EMU_VARS.shadow_outbound_peer_cnt, len(EMU_VARS.currentOutboundPeers))
-
-            if nNow >= EMU_PARAMS.nAttackStart:
-                if impossible_attack_flag:
-                    # terminate
-                    EMU_VARS.shadow_outbound_peer_cnt = -1
-                    break
-
             check_success_rate(nNow, addrman)
             check_next_success_rate += 1
 
@@ -283,7 +266,7 @@ def run(addrman):
 
 def save(nNow, em_start, em_end):
     # save to file
-    with open("output/"+str(attacker_as)+"-"+str(victim_as)+".txt", "w") as log_file:
+    with open("output/"+str(EMU_PARAMS.attacker_as)+"-"+str(EMU_PARAMS.victim_as)+".txt", "w") as log_file:
         log_arr = [
                     "Days: " + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24)) - 30), 
                     "Attacker: " + EMU_PARAMS.attacker_as,
