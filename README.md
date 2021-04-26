@@ -1,29 +1,42 @@
+# Erebus Attack Simulation
+The [Erebus Attack](https://erebus-attack.comp.nus.edu.sg/) allows large malicious Internet Service Providers (ISPs) to isolate any targeted public Bitcoin nodes from the Bitcoin peer-to-peer network. Our recent [work](https://www.usenix.org/system/files/sec21fall-tran.pdf) also evaluates a potential defense against this attack.
 
-# Bitcoin Erebus - Bitcoin emulator
+Here we faithfully implement the connection making behaviour of the Bitcoin protocol in the application space and mount the attack based on data collected from the actual Bitcoin Network. Further, we also deploy the countermeasures stated in the defense paper which can be toggled on or off. The code is broadly paritioned into three components:
+1. `addrman.py` - a replication of the Bitcoin Peer Management protocol.
+2. `prepare.py` - the environment setting component that loads data into memory
+2. `libemulate.py` - the emulation runner that drives addrman
 
-## Description
+The entire configuration is set in `cfg.py`.
 
-This is a Bitcoin emulator that accurately emulates the address management (in [addrman.cpp](https://github.com/bitcoin/bitcoin/blob/master/src/addrman.cpp)) and outgoing connection establishment of Bitcoin (in [net.cpp](https://github.com/bitcoin/bitcoin/blob/master/src/net.cpp))
+By default, the emulation runs for 381 days and the attack begins at day 30.
 
-* The required format for the data is shown in /data/README.md
+## Data prerequisites
+Our emulation scenario includes an adversary AS (`attacker_as`) mounting the attack against a victim (`victim_as`). The victim AS denotes the AS network that the target victim node is connected to.
 
-* We do not include the data here since the grouth truth data is too heavy
+The following files are required to run the emulator (paths defined in `cfg.EmulationParam`): 
+- `asn_dat_fp`: IPASN data file that contains a long list of prefixes used to lookup an AS number from a given IP. Refer to the [pyasn](https://pypi.org/project/pyasn/) documentation on steps to obtain an updated file.
+- `starter_ips_fp`: List of IPs seeded to the bitcoin internal database before the start of the simulation.
+- `ip_reachability_fp`: A key value dictionary containing the IP address of a node against a list of timestamp ranges denoting the online time of the node. For example, a line containing `1.2.3.4 t1-t2 t3-t4` suggests that the node was continously online from time t=t1 to t2, and then t3 to t4. This is derived from [Bitnodes](https://bitnodes.io/) data.
+- `addr_msgs_fp`: A tab delimited csv that contains the timestamp at which an ADDR message was received by the node, the src IP address of the ADDR message, and the list of advertised IP addresses.
+- `shadow_prefixes_fp`: List of shadow prefixes.
+- `nonhidden_shadow_prefixes_fp`: List of prefixes that were correctly "estimated" as shadow prefixes by the node. This is used to derive the list of hidden-shadow prefixes (`shadow-prefixes - nonhidden-shadow-prefixes`).
+- `victim_as_path`: List of AS paths from the victim to all prefixes on the internet (`prefix_1 AS1 AS2`).
 
-* Erebus parameters are configurable
+## Running the emulator
+First, set the necessary configuration details defined in `cfg.py` and ensure the files are present in the correct locations.
 
-* There are inline comments, hope it is helpful
+We use the python virtual environment to manage dependencies.
+```sh
+# create venv
+$ python3 -m venv ./venv
+# activate it
+$ source ./venv/bin/activate
+# install dependencies
+(venv) $ pip install -r requirements.txt
+(venv) $ python main.py
+```
 
-## Requirement
+The output will be saved in the `./output` directory!
 
-* Python3 (yep, that's all!)
-
-## Run the emulator
-
-* Set the Erebus parameters and run it
-	````
-	python3 bitcoin-emulator.py
-	````
-
-## License
-
-This project is licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+## Support
+Feel free to raise questions in the Issues section.
