@@ -268,9 +268,9 @@ def save(nNow, em_start, em_end):
     # save to file
     with open("output/"+str(EMU_PARAMS.attacker_as)+"-"+str(EMU_PARAMS.victim_as)+".txt", "w") as log_file:
         log_arr = [
-                    "EmulationDuration" + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24))),
+                    "EmulationDuration: " + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24))),
                     "AttackDuration: " + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24)) - EMU_PARAMS.victim_age),
-                    "AttackSucces" + str(nNow < EMU_PARAMS.nEnd),
+                    "AttackSucces: " + str(nNow < EMU_PARAMS.nEnd),
                     "Attacker: " + EMU_PARAMS.attacker_as,
                     "Victim: " + EMU_PARAMS.victim_as,
                     "SimTime: " + '%.3f' % (em_end - em_start),
