@@ -119,9 +119,6 @@ def prepare_starter_ips(addrman):
 @log_func
 def prepare_ip_rechability():
     #### Load bitnodes data to test for reachability ####
-    """
-    TODO file format
-    """
     file_path = EMU_PARAMS.ip_reachability_fp
     print(f"Reading file.. {file_path}")
     with gzip.GzipFile(file_path, 'r') as f:
@@ -273,11 +270,10 @@ def prepare_hidden_shadow_ips(asn_db):
         # we synthesize the "blind spot" from the victim's perspective here.
         # we drop the attacker AS from the "ground truth" AS-path data structure that we
         # constructed above
-        if "47065" not in EMU_PARAMS.victim_as:
-            rnode = EMU_VARS.as_path_tree.search_exact(prefix_str)
-            if rnode != None:
-                if EMU_PARAMS.attacker_as in rnode.data[0]:
-                    rnode.data[0].remove(EMU_PARAMS.attacker_as)
+        rnode = EMU_VARS.as_path_tree.search_exact(prefix_str)
+        if rnode != None:
+            if EMU_PARAMS.attacker_asn in rnode.data[0]:
+                rnode.data[0].remove(EMU_PARAMS.attacker_asn)
 
         # group based on ASN number instead of /16 prefix if defense flag is set
         if COUNTERMEASURES.ct1_flag:

@@ -421,11 +421,14 @@ class CAddrMan:
                 nOutboundFullRelay += 1
 
             closted_cycle_end = min(closted_cycle_end, cycle_end)
-            for asn in as_path:
-                if asn not in as_count_on_existing_conn:
-                    as_count_on_existing_conn[asn] = 1
-                else:
-                    as_count_on_existing_conn[asn] += 1
+
+            # construct map to keep count of ASes on paths to outbound peers
+            if EMU_PARAMS.rap_enabled:
+                for asn in as_path:
+                    if asn not in as_count_on_existing_conn:
+                        as_count_on_existing_conn[asn] = 1
+                    else:
+                        as_count_on_existing_conn[asn] += 1
 
         # check if we must make a feeler connection
         fFeeler = False
@@ -456,7 +459,8 @@ class CAddrMan:
             if (nNow - self.mapInfo[nId]["nLastTry"] < 600 and nTries < 3):
                 continue
 
-            if not fFeeler:
+            # if we're making an outgoing connection, and rap is enabled, check if within contraints
+            if EMU_PARAMS.rap_enabled and not fFeeler:
                 # try to retrieve AS path for the node
                 as_path_to_this_ip = []
                 node = EMU_VARS.as_path_tree.search_best(addr) # radix search
@@ -472,6 +476,7 @@ class CAddrMan:
                 for asn in as_path_to_this_ip:
                     if asn in as_count_on_existing_conn:
                         if as_count_on_existing_conn[asn] + 1 > EMU_PARAMS.threshold_tau:
+                            # pick a new connection
                             can_choose = False
                             break
 

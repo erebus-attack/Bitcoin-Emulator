@@ -58,8 +58,12 @@ class BTCParam:
 ######## Emulation Parameters ########
 
 class EmulationParam:
-    attacker_as = "8167"
-    victim_as = "4-1"
+    # name of the attacker AS
+    attacker_as = "l3"
+    # attacker ASN
+    attacker_asn = "3356"
+    # name of the victim AS
+    victim_as = "amzn"
 
     # timestamp at which the emulation should begin
     nStart = 1542562302
@@ -84,13 +88,13 @@ class EmulationParam:
     threshold_tau = 5
 
     # filepaths
-    asn_dat_fp = "/data/ipasn.dat"
-    starter_ips_fp = "/data/starter-ips.txt"
-    ip_reachability_fp = "/data/ip-reachability.txt.gz"
-    addr_msgs_fp = "/data/addr-msgs.txt.gz"
-    shadow_prefixes_fp = "/data/shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
-    nonhidden_shadow_prefixes_fp = "/data/nonhidden-shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
-    victim_as_path = "/data/as-path." + victim_as + ".txt"
+    asn_dat_fp = "./data/ipasn.dat"
+    starter_ips_fp = "./data/starter-ips.txt"
+    ip_reachability_fp = "./data/ip-reachability.txt.gz"
+    addr_msgs_fp = "./data/addr-msgs.txt.gz"
+    shadow_prefixes_fp = "./data/shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
+    nonhidden_shadow_prefixes_fp = "./data/nonhidden-shadow-prefixes." + attacker_as + "-" + victim_as + ".txt"
+    victim_as_path = "./data/as-path." + victim_as + ".txt"
 
 
 ######## Emulation Variables ########

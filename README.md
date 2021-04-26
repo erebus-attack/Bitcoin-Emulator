@@ -8,6 +8,8 @@ Here we faithfully implement the connection making behaviour of the Bitcoin prot
 
 The entire configuration is set in `cfg.py`.
 
+By default, the emulation runs for 381 days and the attack begins at day 30.
+
 ## Data prerequisites
 Our emulation scenario includes an adversary AS (`attacker_as`) mounting the attack against a victim (`victim_as`). The victim AS denotes the AS network that the target victim node is connected to.
 
