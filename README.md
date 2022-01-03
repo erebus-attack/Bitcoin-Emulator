@@ -13,6 +13,8 @@ By default, the emulation runs for 381 days and the attack begins at day 30.
 ## Data prerequisites
 Our emulation scenario includes an adversary AS (`attacker_as`) mounting the attack against a victim (`victim_as`). The victim AS denotes the AS network that the target victim node is connected to.
 
+A sample data package is provided [here](https://github.com/erebus-attack/Bitcoin-Emulator/releases/download/v0.1/data.tar.gz). The attacker is considered to be the L3 AS and the victim is considered to be a node in the Amazon AS.
+
 The following files are required to run the emulator (paths defined in `cfg.EmulationParam`): 
 - `asn_dat_fp`: IPASN data file that contains a long list of prefixes used to lookup an AS number from a given IP. Refer to the [pyasn](https://pypi.org/project/pyasn/) documentation on steps to obtain an updated file.
 - `starter_ips_fp`: List of IPs seeded to the bitcoin internal database before the start of the simulation.
@@ -23,7 +25,9 @@ The following files are required to run the emulator (paths defined in `cfg.Emul
 - `victim_as_path`: List of AS paths from the victim to all prefixes on the internet (`prefix_1 AS1 AS2`).
 
 ## Running the emulator
-First, set the necessary configuration details defined in `cfg.py` and ensure the files are present in the correct locations.
+First, set the necessary configuration details defined in `cfg.py`. 
+
+Second, ensure that the `data` directory is extracted and placed in the project root, and all the files described above are correctly referenced in `cfg.py`. 
 
 We use the python virtual environment to manage dependencies.
 ```sh
@@ -33,10 +37,16 @@ $ python3 -m venv ./venv
 $ source ./venv/bin/activate
 # install dependencies
 (venv) $ pip install -r requirements.txt
+```
+
+The following command will run the simulation:
+```sh
 (venv) $ python main.py
 ```
 
-The output will be saved in the `./output` directory!
+The run time depends on the input parameters, and may take approximately 20 minutes. The output will be saved in the `./output` directory!
+
+The code has been tested on Ubuntu 16.04 and 18.04, with Python 3.8.
 
 ## Support
 Feel free to raise questions in the Issues section.
