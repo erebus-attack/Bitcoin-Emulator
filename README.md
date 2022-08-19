@@ -46,6 +46,14 @@ The following command will run the simulation:
 
 The run time depends on the input parameters, and may take approximately 20 minutes. The output will be saved in the `./output` directory!
 
+We consider the attack to succeed if the attacker has occupied all outgoing connections before the end time of the simulation. That is currently set to approximately [381 days](https://github.com/erebus-attack/Bitcoin-Emulator/blob/eb1636bfd06c4185815535f6eaed58874e98af36/cfg.py#L71) (`nStart - nEnd`, in seconds). Otherwise, the attack is said to fail.
+
+The only two conditions for completion are:
+1. The simulation runs till `nEnd`.
+2. The attacker occupies all outgoing connections.
+
+The result of the simulation is printed to the console in the end.
+
 The code has been tested on Ubuntu 16.04 and 18.04, with Python 3.8.
 
 ## Support
