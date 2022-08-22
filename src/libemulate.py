@@ -185,7 +185,9 @@ def run(addrman):
         # check success rate every day 
         if nNow >= EMU_PARAMS.nStart + check_next_success_rate * 24 * 60 * 60:
             print(check_next_success_rate, EMU_VARS.shadow_outbound_peer_cnt, len(EMU_VARS.currentOutboundPeers))
-            check_success_rate(nNow, addrman)
+            if nNow >= EMU_PARAMS.nAttackStart:
+                # trigger reboot if necessary
+                check_success_rate(nNow, addrman)
             check_next_success_rate += 1
 
 
