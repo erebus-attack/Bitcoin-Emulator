@@ -50,6 +50,7 @@ class BTCParam:
 
         if CounterMeasures.ct3_flag:
             BTCParam.m_max_outbound_block_relay = 8
+            BTCParam.m_max_outbound = BTCParam.m_max_outbound_full_relay + BTCParam.m_max_outbound_block_relay
 
         if CounterMeasures.ct6_flag:
             BTCParam.FEELER_INTERVAL = round(30)
