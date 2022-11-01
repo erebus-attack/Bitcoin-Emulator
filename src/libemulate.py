@@ -272,7 +272,7 @@ def save(nNow, em_start, em_end):
         log_arr = [
                     "EmulationDuration: " + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24))),
                     "AttackDuration: " + str(int((nNow - EMU_PARAMS.nStart) / (60 * 60 * 24)) - EMU_PARAMS.victim_age),
-                    "AttackSucces: " + str(nNow < EMU_PARAMS.nEnd),
+                    "AttackSuccess: " + str(nNow < EMU_PARAMS.nEnd - 1),
                     "Attacker: " + EMU_PARAMS.attacker_as,
                     "Victim: " + EMU_PARAMS.victim_as,
                     "SimTime: " + '%.3f' % (em_end - em_start),
